@@ -1,18 +1,16 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-final secureStorageProvider = Provider((ref) => const FlutterSecureStorage());
+final storageProvider = Provider((ref) => const FlutterSecureStorage());
 
-final secureStorageHelperProvider =
-    Provider((ref) => SecureStorageHelper(ref.read));
+final storageHelperProvider = Provider((ref) => StorageHelper(ref.read));
 
-class SecureStorageHelper {
+class StorageHelper {
   final dynamic _reader;
 
-  SecureStorageHelper(this._reader);
+  StorageHelper(this._reader);
 
-  late final FlutterSecureStorage _secureStorage =
-      _reader(secureStorageProvider);
+  late final FlutterSecureStorage _secureStorage = _reader(storageProvider);
 
   Future<String?> read(String key) async {
     return await _secureStorage.read(key: key);
