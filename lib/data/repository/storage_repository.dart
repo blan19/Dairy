@@ -17,11 +17,11 @@ class StorageRepositoryImpl implements StorageRepository {
   late final StorageHelper _storageHelper = _reader(storageHelperProvider);
 
   @override
-  Future<Result<Map<String, dynamic>?>> getStorage() async {
+  Future<Result<User?>> getStorage() async {
     return Result.guardFuture(() async {
       return _storageHelper.read("user").then((value) {
         if (value != null && value.isNotEmpty) {
-          return jsonDecode(value);
+          return User.fromJson(jsonDecode(value));
         }
         return null;
       });
@@ -33,7 +33,7 @@ class StorageRepositoryImpl implements StorageRepository {
     return Result.guardFuture(
       () async => await _storageHelper.write(
         "user",
-        jsonEncode(user),
+        jsonEncode(user.toJson()),
       ),
     );
   }
