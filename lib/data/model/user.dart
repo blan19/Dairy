@@ -6,7 +6,7 @@ part 'user.g.dart';
 @freezed
 abstract class User with _$User {
   factory User({
-    required String id,
+    required num id,
     required String token,
     required String deviceId,
     required String accessToken,
