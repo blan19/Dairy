@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 @immutable
 class Constants {
   const Constants._({
+    required this.serverBaseUrl,
     required this.firebaseProjectID,
     required this.firebaseStorageBucket,
     required this.firebaseMessagingSenderId,
@@ -17,6 +18,7 @@ class Constants {
 
   factory Constants() {
     return Constants._(
+      serverBaseUrl: dotenv.env['SERVER_BASE_URL']!,
       firebaseProjectID: dotenv.env['FIREBASE_PROJECT_ID']!,
       firebaseStorageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET']!,
       firebaseMessagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID']!,
@@ -30,6 +32,8 @@ class Constants {
   }
 
   static final Constants instance = Constants();
+
+  final String serverBaseUrl;
 
   final String firebaseProjectID;
   final String firebaseStorageBucket;
