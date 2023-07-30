@@ -27,7 +27,8 @@ extension TextStyleExt on TextStyle {
   TextStyle semiBold() => copyWith(fontWeight: FontWeight.w600);
   TextStyle white() => copyWith(color: AColor.white_01);
   TextStyle title() => copyWith(color: AColor.black_01);
-  TextStyle description() => copyWith(color: AColor.black_03);
+  TextStyle description() => copyWith(color: AColor.black_04);
   TextStyle primary() => copyWith(color: AColor.primary);
   TextStyle warning() => copyWith(color: AColor.warning);
+  TextStyle transparent() => copyWith(color: AColor.black_04.withOpacity(0.3));
 }
