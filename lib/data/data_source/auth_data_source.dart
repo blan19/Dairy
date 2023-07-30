@@ -1,6 +1,6 @@
 import 'package:diary/data/model/user.dart';
 import 'package:diary/data/remote/dio_helper.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,4 +18,11 @@ abstract class AuthDataSource {
 
   @DELETE("/member/{id}")
   Future<void> withdrawal(@Path() String id);
+
+  @POST("/member/token/refresh")
+  @Headers({
+    "ACCESS_TOKEN": "true",
+    "REFRESH_TOKEN": "true",
+  })
+  Future<User> refreshToken();
 }

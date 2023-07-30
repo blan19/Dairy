@@ -37,4 +37,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> withdrawal(String id) {
     return Result.guardFuture(() async => await _authDataSource.withdrawal(id));
   }
+
+  @override
+  Future<Result<User>> refreshToken() {
+    return Result.guardFuture(() async => await _authDataSource.refreshToken());
+  }
 }
