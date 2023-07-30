@@ -1,5 +1,10 @@
-import 'package:diary/ui/components/date_picker/mery_date_picker.dart';
+import 'package:diary/styles/app_theme.dart';
+import 'package:gap/gap.dart';
+import 'package:diary/styles/app_theme_text.dart';
+import 'package:diary/ui/components/appbar/mery_appbar.dart';
+import 'package:diary/ui/components/button/mery_button.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
+import 'package:diary/ui/vm/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,16 +13,41 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(appThemeProvider);
+    final homeViewModel = ref.watch(homeViewModelProvider);
+
     return DefaultLayout(
+      appbar: MeryAppbar(title: "${homeViewModel.month}월"),
       widgets: [
-        Expanded(
-          child: Center(
-            child: MeryDatePicker(
-              hidden: false,
-            ),
+        if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
+        if (homeViewModel.diaryList.isNotEmpty)
+          ListView(
+            children: const [],
           ),
-        ),
       ],
+    );
+  }
+
+  Expanded _empty({required AppTheme theme}) {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "아직 이번달에 작성한\n일기가 없어요",
+              style: theme.textTheme.b_17.white().lineHeight(),
+              textAlign: TextAlign.center,
+            ),
+            const Gap(20),
+            MeryButton(
+              text: "일기 쓰러가기",
+              primary: false,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -25,6 +25,7 @@ class AppThemeText {
 extension TextStyleExt on TextStyle {
   TextStyle bold() => copyWith(fontWeight: FontWeight.w700);
   TextStyle semiBold() => copyWith(fontWeight: FontWeight.w600);
+  TextStyle lineHeight() => copyWith(height: 1.5);
   TextStyle white() => copyWith(color: AColor.white_01);
   TextStyle title() => copyWith(color: AColor.black_01);
   TextStyle description() => copyWith(color: AColor.black_04);
