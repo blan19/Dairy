@@ -1,3 +1,6 @@
+import 'package:diary/data/model/item.dart';
+import 'package:diary/data/repository/diary_repository_impl.dart';
+import 'package:diary/domain/repository/diary_repository.dart';
 import 'package:diary/foundation/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,10 +13,14 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel(this._reader);
 
-  List<String> diaryList = [];
+  late final DiaryRepository _diaryRepository =
+      _reader(diaryRepositoryProvider);
+
+  List<Item> _diaryList = [];
   int _year = AppDateUtils.createDiaryYear().last;
   int _month = AppDateUtils.createDiaryMonth(DateTime.now().year).last;
 
+  List<Item> get diaryList => _diaryList;
   int get year => _year;
   int get month => _month;
 
@@ -27,5 +34,15 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchDiaryList() async {}
+  Future<void> fetchDiaryList() async {
+    return _diaryRepository.getDiaryList(year: _year, month: _month).then(
+      (result) {
+        result.when(
+            success: (value) {
+              _diaryList = value;
+            },
+            failure: (_) => result);
+      },
+    ).whenComplete(notifyListeners);
+  }
 }

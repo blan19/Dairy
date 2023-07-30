@@ -1,4 +1,5 @@
 import 'package:diary/styles/app_theme.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:diary/ui/components/appbar/mery_appbar.dart';
@@ -15,6 +16,11 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
     final homeViewModel = ref.watch(homeViewModelProvider);
+
+    useEffect(() {
+      homeViewModel.fetchDiaryList();
+      return null;
+    }, []);
 
     return DefaultLayout(
       appbar: MeryAppbar(title: "${homeViewModel.month}월"),
