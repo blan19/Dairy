@@ -5,4 +5,6 @@ abstract class AuthRepository {
   Future<Result<User>> signIn();
 
   Future<Result<void>> withdrawal(String id);
+
+  Future<Result<User>> refreshToken();
 }
