@@ -1,5 +1,6 @@
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/ui/components/button/mery_floating_action_button.dart';
+import 'package:diary/ui/components/item/diary_item.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:diary/styles/app_theme_text.dart';
@@ -34,7 +35,15 @@ class HomeScreen extends HookConsumerWidget {
         if (homeViewModel.diaryList.isNotEmpty)
           Expanded(
             child: ListView(
-              children: const [],
+              children: [
+                ...homeViewModel.diaryList
+                    .map((e) => DiaryItem(
+                          process: e.process,
+                          createAt: e.createAt,
+                          img: e.imgUrl,
+                        ))
+                    .toList()
+              ],
             ),
           ),
       ],

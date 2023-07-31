@@ -47,3 +47,15 @@ class Constants {
   final String firebaseAndroidApiKey;
   final String firebaseAndroidAppId;
 }
+
+enum Process {
+  S(level: "S"),
+  F(level: "F"),
+  W(level: "W");
+
+  const Process({
+    required this.level,
+  });
+
+  final String level;
+}
