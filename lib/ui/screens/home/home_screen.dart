@@ -27,7 +27,7 @@ class HomeScreen extends HookConsumerWidget {
     return DefaultLayout(
       appbar: MeryAppbar(title: "${homeViewModel.month}월"),
       floatingActionButton: MeryFloatingActionButton(
-        onPressed: () => context.go("/diary/add"),
+        onPressed: () => context.push("/diary/add"),
       ),
       widgets: [
         if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
