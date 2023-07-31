@@ -1,4 +1,5 @@
 import 'package:diary/styles/app_theme.dart';
+import 'package:diary/ui/components/button/mery_floating_action_button.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:diary/styles/app_theme_text.dart';
@@ -7,6 +8,7 @@ import 'package:diary/ui/components/button/mery_button.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
 import 'package:diary/ui/vm/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -24,6 +26,9 @@ class HomeScreen extends HookConsumerWidget {
 
     return DefaultLayout(
       appbar: MeryAppbar(title: "${homeViewModel.month}월"),
+      floatingActionButton: MeryFloatingActionButton(
+        onPressed: () => context.go("/diary/add"),
+      ),
       widgets: [
         if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
         if (homeViewModel.diaryList.isNotEmpty)
