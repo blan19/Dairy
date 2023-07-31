@@ -8,21 +8,22 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MeryDatePicker extends HookConsumerWidget {
   bool hidden;
+  List<int> initialData;
   void Function(int year, int month, int day)? onChanged;
 
   MeryDatePicker({
     super.key,
     required this.hidden,
+    required this.initialData,
     this.onChanged,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
-    final now = DateTime.now();
-    final year = useState(now.year);
-    final month = useState(now.month);
-    final day = useState(now.day);
+    final year = useState(initialData[0]);
+    final month = useState(initialData[1]);
+    final day = useState(initialData[2]);
 
     final years =
         useMemoized(() => AppDateUtils.createDiaryYear().reversed.toList());
@@ -38,11 +39,11 @@ class MeryDatePicker extends HookConsumerWidget {
     );
 
     FixedExtentScrollController yearController =
-        FixedExtentScrollController(initialItem: years.indexOf(now.year));
-    FixedExtentScrollController monthController =
-        FixedExtentScrollController(initialItem: months.indexOf(now.month));
+        FixedExtentScrollController(initialItem: years.indexOf(initialData[0]));
+    FixedExtentScrollController monthController = FixedExtentScrollController(
+        initialItem: months.indexOf(initialData[1]));
     FixedExtentScrollController dayController =
-        FixedExtentScrollController(initialItem: days.indexOf(now.day));
+        FixedExtentScrollController(initialItem: days.indexOf(initialData[2]));
 
     void jumpToMonthAndDay() {
       final monthIndex = months.indexOf(month.value);
@@ -72,7 +73,9 @@ class MeryDatePicker extends HookConsumerWidget {
 
     useEffect(() {
       if (onChanged != null) {
-        onChanged!(year.value, month.value, day.value);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onChanged!(year.value, month.value, day.value);
+        });
       }
       return null;
     }, [year.value, month.value, day.value]);

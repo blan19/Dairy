@@ -30,10 +30,11 @@ class MeryButton extends ConsumerWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: primary ? 0 : 28,
-            vertical: primary ? 0 : 16,
+            vertical: primary ? 16 : 16,
           ),
           child: Text(
             text,
+            textAlign: TextAlign.center,
             style: theme.textTheme.b_14.semiBold().white(),
           ),
         ),

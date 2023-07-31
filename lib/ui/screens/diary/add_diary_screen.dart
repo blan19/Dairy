@@ -1,9 +1,12 @@
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:diary/ui/components/appbar/mery_appbar.dart';
+import 'package:diary/ui/components/dialog/mery_date_picker_dialog.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
+import 'package:diary/ui/vm/add_diary_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddDiaryScreen extends HookConsumerWidget {
@@ -12,6 +15,7 @@ class AddDiaryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
+    final addDiaryViewModel = ref.watch(addDiaryViewModelProvider);
 
     return DefaultLayout(
       appbar: MeryAppbar(
@@ -37,11 +41,29 @@ class AddDiaryScreen extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "7월 25일 수요일",
+                    "${addDiaryViewModel.month}월 ${addDiaryViewModel.day}일 수요일",
                     style: theme.textTheme.b_14.white().semiBold(),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return MeryDatePickerDialog(
+                            title: "날짜를 선택해주세요.",
+                            hidden: false,
+                            action: (year, month, day) {
+                              addDiaryViewModel.updateDate(
+                                year: year,
+                                month: month,
+                                day: day,
+                              );
+                              context.pop();
+                            },
+                          );
+                        },
+                      );
+                    },
                     iconSize: 24,
                     icon: Icon(
                       Icons.calendar_month_rounded,
