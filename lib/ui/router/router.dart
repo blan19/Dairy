@@ -1,6 +1,7 @@
 import 'package:diary/ui/screens/account/account_screen.dart';
 import 'package:diary/ui/screens/diary/add_diary_screen.dart';
 import 'package:diary/ui/screens/diary/detail_diary_screen.dart';
+import 'package:diary/ui/screens/diary/success_diary_screen.dart';
 import 'package:diary/ui/screens/home/home_screen.dart';
 import 'package:diary/ui/screens/splash/spash_screen.dart';
 import 'package:diary/ui/vm/auth_view_model.dart';
@@ -25,6 +26,11 @@ final routerProvider = Provider(
           path: "/diary/add",
           name: "diary_add_screen",
           builder: (_, __) => const AddDiaryScreen(),
+        ),
+        GoRoute(
+          path: "/diary/success",
+          name: "diary_success_screen",
+          builder: (_, __) => const SuccessDiaryScreen(),
         ),
         GoRoute(
           path: "/diary/:id",
