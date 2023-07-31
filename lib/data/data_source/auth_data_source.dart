@@ -16,6 +16,9 @@ abstract class AuthDataSource {
   @POST("/member/signIn")
   Future<User> signIn(@Body() Map<String, dynamic> data);
 
+  @POST("/member/signUp")
+  Future<User> signUp(@Body() Map<String, dynamic> data);
+
   @DELETE("/member/{id}")
   Future<void> withdrawal(@Path() String id);
 

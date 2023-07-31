@@ -9,6 +9,8 @@ abstract class User with _$User {
     required num id,
     required String token,
     required String deviceId,
+    required String gender,
+    required int age,
     required String accessToken,
     required String refreshToken,
   }) = _User;

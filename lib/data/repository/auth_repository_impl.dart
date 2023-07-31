@@ -20,14 +20,30 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<User>> signIn() async {
     final token = await _fcmHelper.getToken();
-    final deviceInfo = await _deviceInfoHelper.getDeviceInfo();
-    final deviceId = deviceInfo.data['identifierForVendor'];
+    final deviceId = await _deviceInfoHelper.getDeviceId();
 
     return Result.guardFuture(
       () async => await _authDataSource.signIn(
         {
           "token": token,
           'deviceId': deviceId,
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<Result<User>> signUp(gender, age) async {
+    final token = await _fcmHelper.getToken();
+    final deviceId = await _deviceInfoHelper.getDeviceId();
+
+    return Result.guardFuture(
+      () async => await _authDataSource.signUp(
+        {
+          "token": token,
+          'deviceId': deviceId,
+          "gender": gender,
+          'age': age,
         },
       ),
     );
