@@ -15,12 +15,14 @@ class AddDiaryViewModel extends ChangeNotifier {
   late final DiaryRepository _diaryRepository =
       _reader(diaryRepositoryProvider);
 
+  String _content = "";
   int _year = AppDateUtils.createDiaryYear().last;
   int _month = AppDateUtils.createDiaryMonth(DateTime.now().year).last;
   int _day =
       AppDateUtils.createDiaryDay(DateTime.now().year, DateTime.now().month)
           .last;
 
+  String get content => _content;
   int get year => _year;
   int get month => _month;
   int get day => _day;
@@ -34,5 +36,18 @@ class AddDiaryViewModel extends ChangeNotifier {
     _month = month;
     _day = day;
     notifyListeners();
+  }
+
+  void updateContent(String content) {
+    _content = content;
+    notifyListeners();
+  }
+
+  Future<void> writeDiary() {
+    final data = {
+      "content": content,
+    };
+
+    return _diaryRepository.writeDiary(data);
   }
 }
