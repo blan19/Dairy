@@ -32,8 +32,10 @@ class HomeScreen extends HookConsumerWidget {
       widgets: [
         if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
         if (homeViewModel.diaryList.isNotEmpty)
-          ListView(
-            children: const [],
+          Expanded(
+            child: ListView(
+              children: const [],
+            ),
           ),
       ],
     );

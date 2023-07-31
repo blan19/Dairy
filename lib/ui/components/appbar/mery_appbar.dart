@@ -7,9 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class MeryAppbar extends ConsumerWidget implements PreferredSizeWidget {
   final AppBar appBar = AppBar();
   final bool leading;
+  final String title;
   final Widget? action;
-
-  String title;
 
   MeryAppbar({
     super.key,

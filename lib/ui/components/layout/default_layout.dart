@@ -18,6 +18,20 @@ class DefaultLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
 
+    if (appbar == null) {
+      return Scaffold(
+        body: SafeArea(
+            child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
+          child: Column(
+            children: [
+              if (widgets != null) ...widgets!,
+            ],
+          ),
+        )),
+      );
+    }
+
     return Scaffold(
       appBar: appbar,
       floatingActionButton: floatingActionButton,
