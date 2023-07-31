@@ -7,8 +7,9 @@ part 'item.g.dart';
 abstract class Item with _$Item {
   factory Item({
     required int darId,
-    required String imgUrl,
-    required String date,
+    required String createAt,
+    required String process,
+    String? imgUrl,
   }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
