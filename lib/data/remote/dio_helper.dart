@@ -1,3 +1,4 @@
+import 'package:diary/data/model/user.dart';
 import 'package:diary/data/repository/auth_repository_impl.dart';
 import 'package:diary/data/repository/storage_repository.dart';
 import 'package:diary/domain/repository/auth_repository.dart';
@@ -32,34 +33,6 @@ class AppDio with DioMixin implements Dio {
   }
 
   static Dio getInstance(dynamic reader) => AppDio._(reader: reader);
-}
-
-class RequestInfo {
-  String _path = "";
-  String _method = "";
-  Map<String, dynamic> _query = {};
-
-  RequestInfo._();
-
-  factory RequestInfo() {
-    return _instance;
-  }
-
-  String get path => _path;
-  String get method => _method;
-  Map<String, dynamic> get query => _query;
-
-  void update({
-    required String path,
-    required String method,
-    required Map<String, dynamic> query,
-  }) {
-    _path = path;
-    _method = method;
-    _query = query;
-  }
-
-  static final RequestInfo _instance = RequestInfo._();
 }
 
 class TokenInterceptor extends Interceptor {
@@ -100,26 +73,19 @@ class TokenInterceptor extends Interceptor {
     final isStatus423 = err.response?.statusCode == 423;
     final isPathRefresh = err.requestOptions.path == "/member/token/refresh";
     RequestOptions options = err.requestOptions;
-    final ins = RequestInfo();
 
     if (isStatus421 && !isPathRefresh) {
-      ins.update(
-        path: options.path,
-        query: options.queryParameters,
-        method: options.method,
-      );
       final user = await _authRepository.refreshToken().then(
         (result) {
           return result.when(
             success: (data) => data,
-            failure: (_) => null,
+            failure: (_) => result,
           );
         },
       );
 
-      if (user == null) return;
+      options.headers.addAll({"ACCESS_TOKEN": (user as User).accessToken});
 
-      options.headers.addAll({"ACCESS_TOKEN": user.accessToken});
       await _storageRepository.writeStorageUser(user);
     }
 
@@ -137,12 +103,8 @@ class TokenInterceptor extends Interceptor {
 
       await _storageRepository.writeStorageUser(user);
 
-      options = options.copyWith(
-        path: ins.path,
-        queryParameters: ins.query,
-        method: ins.method,
-      );
       options.headers.addAll({"ACCESS_TOKEN": user.accessToken});
+      options.headers.addAll({"REFRESH_TOKEN": user.refreshToken});
     }
 
     final res = await _dio.fetch(options);
