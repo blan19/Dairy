@@ -8,9 +8,6 @@ import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-String prevPath = "";
-Map<String, dynamic> prevQuery = {};
-
 final dioProvider = Provider((ref) => AppDio.getInstance(ref.read));
 
 class AppDio with DioMixin implements Dio {
