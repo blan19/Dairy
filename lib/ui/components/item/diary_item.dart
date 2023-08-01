@@ -4,6 +4,7 @@ import 'package:diary/styles/app_theme_text.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:indexed/indexed.dart';
 
 class DiaryItem extends ConsumerWidget {
   final String? img;
@@ -21,22 +22,12 @@ class DiaryItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
     if (process == Process.W.level) {
-      return Column(
-        children: [
-          _wait(
-            theme: theme,
-          ),
-          const Gap(20),
-        ],
+      return _wait(
+        theme: theme,
       );
     }
 
-    return Column(
-      children: [
-        _item(theme: theme, img: img!),
-        const Gap(20),
-      ],
-    );
+    return _item(theme: theme, img: img!);
   }
 
   Container _wait({
@@ -93,50 +84,58 @@ class DiaryItem extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       height: 175,
-      child: Row(
+      child: Indexer(
         children: [
-          Stack(
-            children: [
-              Image.network(
-                img,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    ],
-                  );
-                },
-              ),
-              Positioned(
-                left: 20,
-                bottom: 16,
-                child: Row(
+          Indexed(
+            index: 0,
+            child: Image.network(
+              img,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "25",
-                      style: theme.textTheme.b_17.white().semiBold(),
-                    ),
-                    const Gap(4),
-                    Text(
-                      "수",
-                      style: theme.textTheme.b_14.white(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ],
                     ),
                   ],
-                ),
+                );
+              },
+            ),
+          ),
+          Indexed(
+            index: 1,
+            child: Positioned(
+              left: 20,
+              bottom: 16,
+              child: Row(
+                children: [
+                  Text(
+                    "25",
+                    style: theme.textTheme.b_17.white().semiBold(),
+                  ),
+                  const Gap(4),
+                  Text(
+                    "수",
+                    style: theme.textTheme.b_14.white(),
+                  ),
+                ],
               ),
-            ],
-          )
+            ),
+          ),
         ],
       ),
     );
