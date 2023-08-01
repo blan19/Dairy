@@ -1,6 +1,4 @@
-import 'package:diary/data/repository/auth_repository_impl.dart';
 import 'package:diary/data/repository/storage_repository.dart';
-import 'package:diary/domain/repository/auth_repository.dart';
 import 'package:diary/domain/repository/storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +12,6 @@ class AuthViewModel extends ChangeNotifier {
 
   AuthViewModel(this._reader);
 
-  late final AuthRepository _authRepository = _reader(authRepositoryProvider);
   late final StorageRepository _storageRepository =
       _reader(storageRepositoryImpl);
 
@@ -24,16 +21,6 @@ class AuthViewModel extends ChangeNotifier {
         return result.when(success: (data) => data, failure: (_) => result);
       });
       if (user == null) {
-        // final data = await _authRepository.signIn().then((result) {
-        //   return result.when(
-        //       success: (data) {
-        //         return data;
-        //       },
-        //       failure: (_) => result);
-        // });
-
-        // await _storageRepository.writeStorageUser(data as User);
-        // return "/";
         return "/account";
       } else {
         return "/";

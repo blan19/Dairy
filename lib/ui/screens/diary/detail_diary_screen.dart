@@ -7,6 +7,7 @@ import 'package:diary/ui/vm/detail_diary_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailDiaryScreen extends HookConsumerWidget {
@@ -134,9 +135,14 @@ class DetailDiaryScreen extends HookConsumerWidget {
                             ),
                           ),
                           const Gap(8),
-                          const Image(
-                            image: AssetImage("assets/images/logo.png"),
-                            width: 71.3,
+                          GestureDetector(
+                            onTap: () {
+                              context.push("/diary/answer");
+                            },
+                            child: const Image(
+                              image: AssetImage("assets/images/logo.png"),
+                              width: 71.3,
+                            ),
                           )
                         ],
                       ),
