@@ -35,7 +35,9 @@ final routerProvider = Provider(
         GoRoute(
           path: "/diary/:id",
           name: "diary_detail_screen",
-          builder: (_, __) => const DetailDiaryScreen(),
+          builder: (_, state) => DetailDiaryScreen(
+            id: state.pathParameters['id']!,
+          ),
         ),
         GoRoute(
           path: "/account",

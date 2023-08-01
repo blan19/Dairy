@@ -26,6 +26,7 @@ class MeryAppbar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: theme.appColors.black_01,
+      automaticallyImplyLeading: false,
       leading: leading
           ? IconButton(
               onPressed: () => context.pop(),
