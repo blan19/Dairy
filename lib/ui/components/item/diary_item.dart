@@ -1,4 +1,5 @@
 import 'package:diary/foundation/constants.dart';
+import 'package:diary/foundation/utils/date_utils.dart';
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,7 @@ class DiaryItem extends ConsumerWidget {
     required String img,
     void Function()? onTap,
   }) {
+    final dateTime = AppDateUtils.stringToDateTime(createAt);
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
@@ -141,12 +143,12 @@ class DiaryItem extends ConsumerWidget {
                 child: Row(
                   children: [
                     Text(
-                      "25",
+                      "${dateTime.day}",
                       style: theme.textTheme.b_17.white().semiBold(),
                     ),
                     const Gap(4),
                     Text(
-                      "수",
+                      AppDateUtils.weekDay(dateTime),
                       style: theme.textTheme.b_14.white(),
                     ),
                   ],

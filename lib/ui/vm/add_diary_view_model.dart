@@ -20,7 +20,7 @@ class AddDiaryViewModel extends ChangeNotifier {
   int _month = AppDateUtils.createDiaryMonth(DateTime.now().year).last;
   int _day =
       AppDateUtils.createDiaryDay(DateTime.now().year, DateTime.now().month)
-          .last;
+          .first;
 
   String get content => _content;
   int get year => _year;
@@ -35,6 +35,15 @@ class AddDiaryViewModel extends ChangeNotifier {
     _year = year;
     _month = month;
     _day = day;
+    notifyListeners();
+  }
+
+  void reset() {
+    _year = AppDateUtils.createDiaryYear().last;
+    _month = AppDateUtils.createDiaryMonth(DateTime.now().year).last;
+    _day =
+        AppDateUtils.createDiaryDay(DateTime.now().year, DateTime.now().month)
+            .first;
     notifyListeners();
   }
 

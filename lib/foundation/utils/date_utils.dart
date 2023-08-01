@@ -19,4 +19,34 @@ class AppDateUtils {
     final date = DateTime(year, month + 1, 0);
     return List.generate(date.day, (index) => index + 1);
   }
+
+  static String weekDay(DateTime date) {
+    final day = date.weekday;
+    switch (day) {
+      case 0:
+        return "일";
+      case 1:
+        return "월";
+      case 2:
+        return "화";
+      case 3:
+        return "수";
+      case 4:
+        return "목";
+      case 5:
+        return "금";
+      case 6:
+        return "토";
+      default:
+        return "";
+    }
+  }
+
+  static DateTime stringToDateTime(String date) {
+    return DateTime.parse(date);
+  }
+
+  static DateTime intToDateTime(int year, int month, int day) {
+    return DateTime(year, month, day);
+  }
 }

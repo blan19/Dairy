@@ -1,3 +1,4 @@
+import 'package:diary/foundation/utils/date_utils.dart';
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:diary/ui/components/appbar/mery_appbar.dart';
@@ -6,6 +7,7 @@ import 'package:diary/ui/components/layout/default_layout.dart';
 import 'package:diary/ui/vm/add_diary_view_model.dart';
 import 'package:diary/ui/vm/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +20,14 @@ class AddDiaryScreen extends HookConsumerWidget {
     final theme = ref.watch(appThemeProvider);
     final addDiaryViewModel = ref.watch(addDiaryViewModelProvider);
     final homeViewModel = ref.watch(homeViewModelProvider);
+
+    useEffect(() {
+      return () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          addDiaryViewModel.reset();
+        });
+      };
+    }, []);
 
     return DefaultLayout(
       appbar: MeryAppbar(
@@ -59,7 +69,13 @@ class AddDiaryScreen extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "${addDiaryViewModel.month}월 ${addDiaryViewModel.day}일 수요일",
+                      "${addDiaryViewModel.month}월 ${addDiaryViewModel.day}일 ${AppDateUtils.weekDay(
+                        DateTime(
+                          addDiaryViewModel.year,
+                          addDiaryViewModel.month,
+                          addDiaryViewModel.day,
+                        ),
+                      )}요일",
                       style: theme.textTheme.b_14.white().semiBold(),
                     ),
                     IconButton(

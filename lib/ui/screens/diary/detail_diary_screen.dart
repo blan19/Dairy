@@ -1,3 +1,4 @@
+import 'package:diary/foundation/utils/date_utils.dart';
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:diary/ui/components/appbar/mery_appbar.dart';
@@ -59,7 +60,7 @@ class DetailDiaryScreen extends HookConsumerWidget {
                     ),
                     padding: const EdgeInsets.all(4),
                     child: Text(
-                      "7월 25일 수요일",
+                      "${detailDiaryViewModel.dateTime!.month}월 ${detailDiaryViewModel.dateTime!.day}일 ${AppDateUtils.weekDay(detailDiaryViewModel.dateTime!)}요일",
                       style: theme.textTheme.b_14.semiBold().white(),
                     ),
                   ),

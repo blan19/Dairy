@@ -11,6 +11,7 @@ abstract class Diary with _$Diary {
     required String contents,
     required String answer,
     required String characterUrl,
+    required String createAt,
   }) = _Diary;
 
   factory Diary.fromJson(Map<String, dynamic> json) => _$DiaryFromJson(json);
