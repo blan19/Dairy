@@ -21,7 +21,10 @@ class AddDiaryScreen extends HookConsumerWidget {
 
     return DefaultLayout(
       appbar: MeryAppbar(
-        title: "일기 쓰기",
+        title: Text(
+          "일기 쓰기",
+          style: theme.textTheme.b_14.semiBold(),
+        ),
         leading: true,
         action: GestureDetector(
           onTap: () async {

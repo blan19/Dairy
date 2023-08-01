@@ -1,5 +1,4 @@
 import 'package:diary/styles/app_theme.dart';
-import 'package:diary/styles/app_theme_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class MeryAppbar extends ConsumerWidget implements PreferredSizeWidget {
   final AppBar appBar = AppBar();
   final bool leading;
-  final String title;
+  final Widget title;
   final Widget? action;
 
   MeryAppbar({
@@ -51,10 +50,7 @@ class MeryAppbar extends ConsumerWidget implements PreferredSizeWidget {
               ),
             ]
           : null,
-      title: Text(
-        title,
-        style: theme.textTheme.b_14.semiBold(),
-      ),
+      title: title,
     );
   }
 }

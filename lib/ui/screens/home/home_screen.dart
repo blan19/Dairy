@@ -1,5 +1,6 @@
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/ui/components/button/mery_floating_action_button.dart';
+import 'package:diary/ui/components/dialog/mery_date_picker_dialog.dart';
 import 'package:diary/ui/components/item/diary_item.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -23,10 +24,45 @@ class HomeScreen extends HookConsumerWidget {
     useEffect(() {
       homeViewModel.fetchDiaryList();
       return null;
-    }, []);
+    }, [homeViewModel.year, homeViewModel.month]);
 
     return DefaultLayout(
-      appbar: MeryAppbar(title: "${homeViewModel.month}월"),
+      appbar: MeryAppbar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "${homeViewModel.month}월",
+              style: theme.textTheme.b_14.semiBold(),
+            ),
+            const Gap(4),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return MeryDatePickerDialog(
+                      title: "월을 선택해주세요",
+                      hidden: true,
+                      action: (year, month, _) {
+                        homeViewModel.updateYear(year);
+                        homeViewModel.updateMonth(month);
+                        context.pop();
+                      },
+                    );
+                  },
+                );
+              },
+              child: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                size: 20,
+                color: theme.appColors.black_04,
+              ),
+            )
+          ],
+        ),
+      ),
       floatingActionButton: MeryFloatingActionButton(
         onPressed: () => context.push("/diary/add"),
       ),

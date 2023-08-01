@@ -46,6 +46,9 @@ class AddDiaryViewModel extends ChangeNotifier {
   Future<void> writeDiary() {
     final data = {
       "content": content,
+      "year": year,
+      "month": month,
+      "day": day,
     };
 
     return _diaryRepository.writeDiary(data);
