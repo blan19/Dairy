@@ -73,10 +73,12 @@ class HomeScreen extends HookConsumerWidget {
               child: ListView.separated(
                 itemCount: homeViewModel.diaryList.length,
                 itemBuilder: (_, index) {
+                  final diary = homeViewModel.diaryList[index];
                   return DiaryItem(
-                    process: homeViewModel.diaryList[index].process,
-                    createAt: homeViewModel.diaryList[index].createAt,
-                    img: homeViewModel.diaryList[index].imgUrl,
+                    process: diary.process,
+                    createAt: diary.createAt,
+                    img: diary.imgUrl,
+                    onTap: () => context.push("/diary/${diary.darId}"),
                   );
                 },
                 separatorBuilder: (_, index) {
