@@ -74,41 +74,44 @@ class TokenInterceptor extends Interceptor {
     final isPathRefresh = err.requestOptions.path == "/member/token/refresh";
     RequestOptions options = err.requestOptions;
 
-    if (isStatus421 && !isPathRefresh) {
-      final user = await _authRepository.refreshToken().then(
-        (result) {
-          return result.when(
-            success: (data) => data,
-            failure: (_) => result,
-          );
-        },
-      );
+    try {
+      if (isStatus421 && !isPathRefresh) {
+        final user = await _authRepository.refreshToken().then(
+          (result) {
+            return result.when(
+              success: (data) => data,
+              failure: (_) => result,
+            );
+          },
+        );
 
-      options.headers.addAll({"ACCESS_TOKEN": (user as User).accessToken});
+        options.headers.addAll({"ACCESS_TOKEN": (user as User).accessToken});
 
-      await _storageRepository.writeStorageUser(user);
+        await _storageRepository.writeStorageUser(user);
+      }
+
+      if ((isStatus423 && !isPathRefresh) || isStatus422) {
+        final user = await _authRepository.signIn().then(
+          (result) {
+            return result.when(
+              success: (data) => data,
+              failure: (_) => null,
+            );
+          },
+        );
+
+        if (user == null) return;
+
+        await _storageRepository.writeStorageUser(user);
+
+        options.headers.addAll({"ACCESS_TOKEN": user.accessToken});
+        options.headers.addAll({"REFRESH_TOKEN": user.refreshToken});
+      }
+
+      final res = await _dio.fetch(options);
+      return handler.resolve(res);
+    } on DioException catch (e) {
+      return handler.reject(e);
     }
-
-    if ((isStatus423 && !isPathRefresh) || isStatus422) {
-      final user = await _authRepository.signIn().then(
-        (result) {
-          return result.when(
-            success: (data) => data,
-            failure: (_) => null,
-          );
-        },
-      );
-
-      if (user == null) return;
-
-      await _storageRepository.writeStorageUser(user);
-
-      options.headers.addAll({"ACCESS_TOKEN": user.accessToken});
-      options.headers.addAll({"REFRESH_TOKEN": user.refreshToken});
-    }
-
-    final res = await _dio.fetch(options);
-
-    return handler.resolve(res);
   }
 }
