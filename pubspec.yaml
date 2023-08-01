@@ -50,6 +50,7 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_messaging: ^14.6.5
   indexed: ^0.0.8
+  flutter_local_notifications: ^12.0.4
 
 dev_dependencies:
   flutter_test:
