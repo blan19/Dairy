@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DefaultLayout extends ConsumerWidget {
   final PreferredSizeWidget? appbar;
-  final List<Widget>? widgets;
+  final Widget? child;
   final Widget? floatingActionButton;
 
   const DefaultLayout({
     super.key,
     this.appbar,
-    this.widgets,
+    this.child,
     this.floatingActionButton,
   });
 
@@ -21,14 +21,11 @@ class DefaultLayout extends ConsumerWidget {
     if (appbar == null) {
       return Scaffold(
         body: SafeArea(
-            child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
-          child: Column(
-            children: [
-              if (widgets != null) ...widgets!,
-            ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
+            child: child,
           ),
-        )),
+        ),
       );
     }
 
@@ -37,11 +34,7 @@ class DefaultLayout extends ConsumerWidget {
       floatingActionButton: floatingActionButton,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
-        child: Column(
-          children: [
-            if (widgets != null) ...widgets!,
-          ],
-        ),
+        child: child,
       ),
     );
   }

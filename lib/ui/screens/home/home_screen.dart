@@ -66,23 +66,25 @@ class HomeScreen extends HookConsumerWidget {
       floatingActionButton: MeryFloatingActionButton(
         onPressed: () => context.push("/diary/add"),
       ),
-      widgets: [
-        if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
-        if (homeViewModel.diaryList.isNotEmpty)
-          Expanded(
-            child: ListView(
-              children: [
-                ...homeViewModel.diaryList
-                    .map((e) => DiaryItem(
-                          process: e.process,
-                          createAt: e.createAt,
-                          img: e.imgUrl,
-                        ))
-                    .toList()
-              ],
+      child: Column(
+        children: [
+          if (homeViewModel.diaryList.isEmpty) _empty(theme: theme),
+          if (homeViewModel.diaryList.isNotEmpty)
+            Expanded(
+              child: ListView(
+                children: [
+                  ...homeViewModel.diaryList
+                      .map((e) => DiaryItem(
+                            process: e.process,
+                            createAt: e.createAt,
+                            img: e.imgUrl,
+                          ))
+                      .toList()
+                ],
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 

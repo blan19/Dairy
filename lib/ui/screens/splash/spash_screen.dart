@@ -8,20 +8,22 @@ class SplashScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const DefaultLayout(
-      widgets: [
-        Expanded(
-          child: Center(
-            child: Text(
-              "로고",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+      child: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                "로고",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

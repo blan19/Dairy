@@ -42,95 +42,99 @@ class AddDiaryScreen extends HookConsumerWidget {
           ),
         ),
       ),
-      widgets: [
-        const Gap(8),
-        Flexible(
-          child: Container(
-            decoration: BoxDecoration(
-              color: theme.appColors.black_02,
-              borderRadius: BorderRadius.circular(theme.appVar.corner_02),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "${addDiaryViewModel.month}월 ${addDiaryViewModel.day}일 수요일",
-                    style: theme.textTheme.b_14.white().semiBold(),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return MeryDatePickerDialog(
-                            title: "날짜를 선택해주세요.",
-                            hidden: false,
-                            action: (year, month, day) {
-                              addDiaryViewModel.updateDate(
-                                year: year,
-                                month: month,
-                                day: day,
-                              );
-                              context.pop();
-                            },
-                          );
-                        },
-                      );
-                    },
-                    iconSize: 24,
-                    icon: Icon(
-                      Icons.calendar_month_rounded,
-                      color: theme.appColors.black_04,
-                    ),
-                  )
-                ],
+      child: Column(
+        children: [
+          const Gap(8),
+          Flexible(
+            child: Container(
+              decoration: BoxDecoration(
+                color: theme.appColors.black_02,
+                borderRadius: BorderRadius.circular(theme.appVar.corner_02),
               ),
-            ),
-          ),
-        ),
-        const Gap(20),
-        Flexible(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TextField(
-                  onChanged: (value) => addDiaryViewModel.updateContent(value),
-                  decoration: InputDecoration(
-                    hintText: '오늘의 이야기를 들려주세요',
-                    hintStyle: theme.textTheme.b_14.description(),
-                    filled: true,
-                    fillColor: theme.appColors.black_02,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 20,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${addDiaryViewModel.month}월 ${addDiaryViewModel.day}일 수요일",
+                      style: theme.textTheme.b_14.white().semiBold(),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius:
-                          BorderRadius.circular(theme.appVar.corner_02),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius:
-                          BorderRadius.circular(theme.appVar.corner_02),
-                    ),
-                  ),
-                  style: theme.textTheme.b_14.white().lineHeight(),
-                  cursorColor: theme.appColors.white_01,
-                  keyboardType: TextInputType.multiline,
-                  autocorrect: false,
-                  maxLines: 30,
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return MeryDatePickerDialog(
+                              title: "날짜를 선택해주세요.",
+                              hidden: false,
+                              action: (year, month, day) {
+                                addDiaryViewModel.updateDate(
+                                  year: year,
+                                  month: month,
+                                  day: day,
+                                );
+                                context.pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      iconSize: 24,
+                      icon: Icon(
+                        Icons.calendar_month_rounded,
+                        color: theme.appColors.black_04,
+                      ),
+                    )
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+          const Gap(20),
+          Flexible(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) =>
+                        addDiaryViewModel.updateContent(value),
+                    decoration: InputDecoration(
+                      hintText: '오늘의 이야기를 들려주세요',
+                      hintStyle: theme.textTheme.b_14.description(),
+                      filled: true,
+                      fillColor: theme.appColors.black_02,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 20,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius:
+                            BorderRadius.circular(theme.appVar.corner_02),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius:
+                            BorderRadius.circular(theme.appVar.corner_02),
+                      ),
+                    ),
+                    style: theme.textTheme.b_14.white().lineHeight(),
+                    cursorColor: theme.appColors.white_01,
+                    keyboardType: TextInputType.multiline,
+                    autocorrect: false,
+                    maxLines: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
