@@ -6,12 +6,14 @@ class DefaultLayout extends ConsumerWidget {
   final PreferredSizeWidget? appbar;
   final Widget? child;
   final Widget? floatingActionButton;
+  final bool keyboard;
 
   const DefaultLayout({
     super.key,
     this.appbar,
     this.child,
     this.floatingActionButton,
+    this.keyboard = false,
   });
 
   @override
@@ -25,6 +27,18 @@ class DefaultLayout extends ConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
             child: child,
           ),
+        ),
+      );
+    }
+
+    if (keyboard) {
+      return Scaffold(
+        appBar: appbar,
+        floatingActionButton: floatingActionButton,
+        resizeToAvoidBottomInset: false,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: theme.appVar.spacing),
+          child: child,
         ),
       );
     }

@@ -35,4 +35,22 @@ class DetailDiaryViewModel extends ChangeNotifier {
       },
     ).whenComplete(notifyListeners);
   }
+
+  Future deleteDiary(int id) {
+    final data = {
+      "seq": id,
+    };
+
+    return _diaryRepository.deleteDiary(data).then(
+      (result) {
+        return result.when(
+          success: (_) {
+            _diary = null;
+            _dateTime = null;
+          },
+          failure: (_) => result,
+        );
+      },
+    ).whenComplete(notifyListeners);
+  }
 }

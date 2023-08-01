@@ -89,25 +89,23 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Expanded _empty({required AppTheme theme}) {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "아직 이번달에 작성한\n일기가 없어요",
-              style: theme.textTheme.b_17.white().lineHeight(),
-              textAlign: TextAlign.center,
-            ),
-            const Gap(20),
-            MeryButton(
-              text: "일기 쓰러가기",
-              primary: false,
-            ),
-          ],
-        ),
+  Center _empty({required AppTheme theme}) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "아직 이번달에 작성한\n일기가 없어요",
+            style: theme.textTheme.b_17.white().lineHeight(),
+            textAlign: TextAlign.center,
+          ),
+          const Gap(20),
+          MeryButton(
+            text: "일기 쓰러가기",
+            primary: false,
+          ),
+        ],
       ),
     );
   }

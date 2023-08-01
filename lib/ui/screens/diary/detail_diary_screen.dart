@@ -2,8 +2,10 @@ import 'package:diary/foundation/utils/date_utils.dart';
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/styles/app_theme_text.dart';
 import 'package:diary/ui/components/appbar/mery_appbar.dart';
+import 'package:diary/ui/components/dialog/merry_dialog.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
 import 'package:diary/ui/vm/detail_diary_view_model.dart';
+import 'package:diary/ui/vm/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -22,6 +24,7 @@ class DetailDiaryScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
     final detailDiaryViewModel = ref.watch(detailDiaryViewModelProvider);
+    final homeViewModel = ref.watch(homeViewModelProvider);
 
     useEffect(() {
       detailDiaryViewModel.fetchDiary(id);
@@ -36,7 +39,31 @@ class DetailDiaryScreen extends HookConsumerWidget {
           style: theme.textTheme.b_14.semiBold().white(),
         ),
         action: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return MeryDialog(
+                  title: "일기를 삭제하시겠어요?",
+                  description: "삭제된 일기는\n복구할 수 없어요",
+                  actionText: "삭제",
+                  action: () {
+                    if (detailDiaryViewModel.diary == null) return;
+                    detailDiaryViewModel
+                        .deleteDiary(detailDiaryViewModel.diary!.darId)
+                        .whenComplete(
+                      () {
+                        homeViewModel.fetchDiaryList().whenComplete(() {
+                          context.pop();
+                          context.pop();
+                        });
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          },
           child: Icon(
             Icons.delete_rounded,
             color: theme.appColors.black_04,

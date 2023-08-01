@@ -30,6 +30,7 @@ class AddDiaryScreen extends HookConsumerWidget {
     }, []);
 
     return DefaultLayout(
+      keyboard: true,
       appbar: MeryAppbar(
         title: Text(
           "일기 쓰기",
@@ -141,7 +142,7 @@ class AddDiaryScreen extends HookConsumerWidget {
                     ),
                     style: theme.textTheme.b_14.white().lineHeight(),
                     cursorColor: theme.appColors.white_01,
-                    keyboardType: TextInputType.multiline,
+                    // keyboardType: TextInputType.,
                     autocorrect: false,
                     maxLines: 30,
                   ),
