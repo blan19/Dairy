@@ -2,6 +2,7 @@ import 'package:diary/data/model/item.dart';
 import 'package:diary/data/repository/diary_repository_impl.dart';
 import 'package:diary/domain/repository/diary_repository.dart';
 import 'package:diary/foundation/utils/date_utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,7 +12,12 @@ final homeViewModelProvider =
 class HomeViewModel extends ChangeNotifier {
   final dynamic _reader;
 
-  HomeViewModel(this._reader);
+  HomeViewModel(this._reader) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("messssage : ${message.notification!.body}");
+      fetchDiaryList();
+    });
+  }
 
   late final DiaryRepository _diaryRepository =
       _reader(diaryRepositoryProvider);
@@ -35,6 +41,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchDiaryList() async {
+    print(await FirebaseMessaging.instance.getToken());
     return _diaryRepository.getDiaryList(year: _year, month: _month).then(
       (result) {
         result.when(

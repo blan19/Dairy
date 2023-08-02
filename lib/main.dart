@@ -18,17 +18,13 @@ void main() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("messssage : ${message.notification!.body}");
-    });
+
     runApp(const ProviderScope(child: App()));
   }, (error, stack) {
     print(error);
   });
 }
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.notification!.body}");
 }
-
-
-
