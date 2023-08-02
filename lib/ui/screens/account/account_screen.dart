@@ -4,6 +4,7 @@ import 'package:diary/ui/components/button/account_info_button.dart';
 import 'package:diary/ui/components/button/mery_button.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
 import 'package:diary/ui/vm/account_view_model.dart';
+import 'package:diary/ui/vm/loading_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ class AccountScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
     final accountViewModel = ref.watch(accountViewModelProvider);
+    final loading = ref.read(loadingStateProvider);
 
     return DefaultLayout(
       child: Column(
@@ -168,9 +170,10 @@ class AccountScreen extends HookConsumerWidget {
                       MeryButton(
                         text: "확인",
                         callback: () async {
+                          if (loading.isLoading) return;
                           if (accountViewModel.gender == null ||
                               accountViewModel.age == null) return;
-                          await accountViewModel.signUp();
+                          loading.whileLoading(accountViewModel.signUp);
                           if (!context.mounted) return;
                           context.replace("/");
                         },

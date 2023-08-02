@@ -6,6 +6,7 @@ import 'package:diary/ui/components/dialog/mery_date_picker_dialog.dart';
 import 'package:diary/ui/components/layout/default_layout.dart';
 import 'package:diary/ui/vm/add_diary_view_model.dart';
 import 'package:diary/ui/vm/home_view_model.dart';
+import 'package:diary/ui/vm/loading_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -20,6 +21,7 @@ class AddDiaryScreen extends HookConsumerWidget {
     final theme = ref.watch(appThemeProvider);
     final addDiaryViewModel = ref.watch(addDiaryViewModelProvider);
     final homeViewModel = ref.watch(homeViewModelProvider);
+    final loading = ref.read(loadingStateProvider);
 
     useEffect(() {
       return () {
@@ -39,10 +41,13 @@ class AddDiaryScreen extends HookConsumerWidget {
         leading: true,
         action: GestureDetector(
           onTap: () async {
+            if (loading.isLoading) return;
             if (addDiaryViewModel.content.isEmpty) return;
-            await addDiaryViewModel.writeDiary().whenComplete(() async {
-              await homeViewModel.fetchDiaryList();
-              addDiaryViewModel.updateContent("");
+            loading.whileLoading(() async {
+              await addDiaryViewModel.writeDiary().whenComplete(() async {
+                await homeViewModel.fetchDiaryList();
+                addDiaryViewModel.updateContent("");
+              });
             });
             if (!context.mounted) return;
             context.replace("/diary/success");
