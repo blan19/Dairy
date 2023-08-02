@@ -17,9 +17,9 @@ class HomeViewModel extends ChangeNotifier {
       print("messssage : ${message.notification!.body}");
       fetchDiaryList();
     });
-    // FirebaseMessaging.onMessageOpenedApp.listen((event) {
-    //   fetchDiaryList();
-    // });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      fetchDiaryList();
+    });
   }
 
   late final DiaryRepository _diaryRepository =
