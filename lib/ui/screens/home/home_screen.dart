@@ -81,6 +81,7 @@ class HomeScreen extends HookConsumerWidget {
           : diaryList.isEmpty
               ? _empty(theme: theme, context: context)
               : RefreshIndicator(
+                  color: theme.appColors.primary,
                   onRefresh: () async {
                     await homeViewModel.fetchDiaryList();
                   },
