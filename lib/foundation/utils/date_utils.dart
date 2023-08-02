@@ -12,11 +12,9 @@ class AppDateUtils {
   }
 
   static List<int> createDiaryDay(int year, int month) {
-    /**
-     * 현재 달과 일치할 경우 
-     * 일은 현재 일까지만 리스트
-     */
     final date = DateTime(year, month + 1, 0);
+    final now = DateTime.now();
+    if (now.month == month) return List.generate(now.day, (index) => index + 1);
     return List.generate(date.day, (index) => index + 1);
   }
 
