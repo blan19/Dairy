@@ -40,7 +40,7 @@ class DetailAnswerScreen extends HookConsumerWidget {
                 const Gap(24),
                 if (detailDiaryViewModel.diary != null)
                   ImageItem(
-                    img: detailDiaryViewModel.diary!.imgUrl,
+                    img: detailDiaryViewModel.diary!.imgUrl!,
                     createAt: detailDiaryViewModel.diary!.createAt,
                   ),
                 if (detailDiaryViewModel.diary != null) const Gap(16),

@@ -7,11 +7,11 @@ part 'diary.g.dart';
 abstract class Diary with _$Diary {
   factory Diary({
     required int darId,
-    required String imgUrl,
     required String contents,
-    required String answer,
     required String characterUrl,
     required String createAt,
+    String? answer,
+    String? imgUrl,
   }) = _Diary;
 
   factory Diary.fromJson(Map<String, dynamic> json) => _$DiaryFromJson(json);

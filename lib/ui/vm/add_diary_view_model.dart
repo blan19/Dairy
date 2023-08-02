@@ -39,11 +39,10 @@ class AddDiaryViewModel extends ChangeNotifier {
   }
 
   void reset() {
-    _year = AppDateUtils.createDiaryYear().last;
-    _month = AppDateUtils.createDiaryMonth(DateTime.now().year).last;
-    _day =
-        AppDateUtils.createDiaryDay(DateTime.now().year, DateTime.now().month)
-            .first;
+    final now = DateTime.now();
+    _year = now.year;
+    _month = now.month;
+    _day = now.day;
     notifyListeners();
   }
 

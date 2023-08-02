@@ -154,7 +154,13 @@ class DetailDiaryScreen extends HookConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "ME.RY의 답장을 확인해봐!",
+                                    detailDiaryViewModel.diary!.imgUrl !=
+                                                null &&
+                                            detailDiaryViewModel
+                                                    .diary!.answer !=
+                                                null
+                                        ? "ME.RY의 답장을 확인해봐!"
+                                        : "ME.RY가 답장을 준비하고있어",
                                     style: theme.textTheme.b_14.white(),
                                   )
                                 ],
@@ -164,6 +170,10 @@ class DetailDiaryScreen extends HookConsumerWidget {
                           const Gap(8),
                           GestureDetector(
                             onTap: () {
+                              if (detailDiaryViewModel.diary!.imgUrl == null ||
+                                  detailDiaryViewModel.diary!.answer == null) {
+                                return;
+                              }
                               context.push("/diary/answer");
                             },
                             child: const Image(
