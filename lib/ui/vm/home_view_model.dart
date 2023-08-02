@@ -40,8 +40,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchDiaryList() async {
-    print(await FirebaseMessaging.instance.getToken());
+  Future<void> fetchDiaryList() {
     return _diaryRepository.getDiaryList(year: _year, month: _month).then(
       (result) {
         result.when(

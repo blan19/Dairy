@@ -1,7 +1,9 @@
+import 'package:diary/foundation/utils/async_snapshot.dart';
 import 'package:diary/styles/app_theme.dart';
 import 'package:diary/ui/components/button/mery_floating_action_button.dart';
 import 'package:diary/ui/components/dialog/mery_date_picker_dialog.dart';
 import 'package:diary/ui/components/item/diary_item.dart';
+import 'package:diary/ui/vm/loading_view_model.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:diary/styles/app_theme_text.dart';
@@ -19,12 +21,20 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeProvider);
-    final homeViewModel = ref.watch(homeViewModelProvider);
+    final homeViewModel = ref.read(homeViewModelProvider);
+    final diaryList =
+        ref.watch(homeViewModelProvider.select((value) => value.diaryList));
+    final year = ref.watch(homeViewModelProvider.select((value) => value.year));
+    final month =
+        ref.watch(homeViewModelProvider.select((value) => value.month));
 
-    useEffect(() {
-      homeViewModel.fetchDiaryList();
-      return null;
-    }, [homeViewModel.year, homeViewModel.month]);
+    final snapshot = useFuture(
+      useMemoized(() {
+        return ref
+            .read(loadingStateProvider)
+            .whileLoading(homeViewModel.fetchDiaryList);
+      }, [year, month]),
+    );
 
     return DefaultLayout(
       appbar: MeryAppbar(
@@ -33,7 +43,7 @@ class HomeScreen extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "${homeViewModel.month}월",
+              "$month월",
               style: theme.textTheme.b_14.semiBold(),
             ),
             const Gap(4),
@@ -66,26 +76,28 @@ class HomeScreen extends HookConsumerWidget {
       floatingActionButton: MeryFloatingActionButton(
         onPressed: () => context.push("/diary/add"),
       ),
-      child: homeViewModel.diaryList.isEmpty
-          ? _empty(theme: theme, context: context)
-          : RefreshIndicator(
-              onRefresh: () async {},
-              child: ListView.separated(
-                itemCount: homeViewModel.diaryList.length,
-                itemBuilder: (_, index) {
-                  final diary = homeViewModel.diaryList[index];
-                  return DiaryItem(
-                    process: diary.process,
-                    createAt: diary.createAt,
-                    img: diary.imgUrl,
-                    onTap: () => context.push("/diary/${diary.darId}"),
-                  );
-                },
-                separatorBuilder: (_, index) {
-                  return const Gap(20);
-                },
-              ),
-            ),
+      child: snapshot.isWaiting
+          ? _loading(theme: theme)
+          : diaryList.isEmpty
+              ? _empty(theme: theme, context: context)
+              : RefreshIndicator(
+                  onRefresh: () async {},
+                  child: ListView.separated(
+                    itemCount: diaryList.length,
+                    itemBuilder: (_, index) {
+                      final diary = diaryList[index];
+                      return DiaryItem(
+                        process: diary.process,
+                        createAt: diary.createAt,
+                        img: diary.imgUrl,
+                        onTap: () => context.push("/diary/${diary.darId}"),
+                      );
+                    },
+                    separatorBuilder: (_, index) {
+                      return const Gap(20);
+                    },
+                  ),
+                ),
     );
   }
 
@@ -108,6 +120,27 @@ class HomeScreen extends HookConsumerWidget {
             text: "일기 쓰러가기",
             primary: false,
             callback: () => context.push("/diary/add"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Center _loading({required AppTheme theme}) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Image(
+            image: AssetImage("assets/images/loading.png"),
+            width: 89,
+          ),
+          const Gap(20),
+          Text(
+            "일기를\n가져오고 있어요",
+            style: theme.textTheme.b_17.white().lineHeight(),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
