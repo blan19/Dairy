@@ -63,6 +63,27 @@ class ImageItem extends ConsumerWidget {
             ),
             Indexed(
               index: 1,
+              child: Container(
+                width: double.infinity,
+                height: 175,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(theme.appVar.corner_02),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color.fromARGB(0, 0, 0, 0).withOpacity(0.49),
+                      const Color.fromARGB(0, 0, 0, 0)
+                    ],
+                  ),
+                ),
+                child: const Row(
+                  children: [],
+                ),
+              ),
+            ),
+            Indexed(
+              index: 2,
               child: Positioned(
                 left: 20,
                 bottom: 16,
