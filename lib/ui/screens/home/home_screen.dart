@@ -67,7 +67,7 @@ class HomeScreen extends HookConsumerWidget {
         onPressed: () => context.push("/diary/add"),
       ),
       child: homeViewModel.diaryList.isEmpty
-          ? _empty(theme: theme)
+          ? _empty(theme: theme, context: context)
           : RefreshIndicator(
               onRefresh: () async {},
               child: ListView.separated(
@@ -89,7 +89,10 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Center _empty({required AppTheme theme}) {
+  Center _empty({
+    required AppTheme theme,
+    required BuildContext context,
+  }) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,6 +107,7 @@ class HomeScreen extends HookConsumerWidget {
           MeryButton(
             text: "일기 쓰러가기",
             primary: false,
+            callback: () => context.push("/diary/add"),
           ),
         ],
       ),
