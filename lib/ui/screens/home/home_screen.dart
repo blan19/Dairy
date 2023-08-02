@@ -81,7 +81,9 @@ class HomeScreen extends HookConsumerWidget {
           : diaryList.isEmpty
               ? _empty(theme: theme, context: context)
               : RefreshIndicator(
-                  onRefresh: () async {},
+                  onRefresh: () async {
+                    await homeViewModel.fetchDiaryList();
+                  },
                   child: ListView.separated(
                     itemCount: diaryList.length,
                     itemBuilder: (_, index) {
